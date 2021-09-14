@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+:root {
+  --main-bg-color: #f7f7f7;
+  --warning-color: #bb1313;
+  --font-color: #6e6c6c;
+  --shadow-color: #cac6c6;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Lato', sans-serif;
+  overflow: hidden;
+}
+.container-base {
+  background-color: var(--main-bg-color);
+  height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+/*********** Header ****************/
+header {
+  width: 100vw;
+}
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem;
+}
+.logo {
+  height: 70px;
+}
+.title {
+  color: var(--font-color);
+  margin-top: 1rem;
+}
+.title h1 {
+  font-weight: 400;
+  margin-right: 1rem;
+}
+.menu-btn {
+  height: 70px;
+  padding-right: 0.5rem;
+  color: var(--font-color);
+  cursor: pointer;
+}
+.status-container {
+  text-align: center;
+  padding: 1rem;
+  border-top: 1px solid var(--shadow-color);
+  border-bottom: 1px solid var(--shadow-color);
+  display: flex;
+  justify-content: center;
+}
+.status {
+  font-weight: 600;
+  font-size: large;
+  margin: auto 1rem;
+}
+.act-btn {
+  font-weight: 400;
+  padding: 0.5rem 1rem;
+  background-color: var(--warning-color);
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+}
+
+/************** Main ***************/
+main {
+  overflow: scroll;
+}
+/************* Card ***************/
+.card {
+  height: 17vh;
+  margin: 0.5rem 5px;
+  padding: 1rem;
+  border: 7px solid var(--main-bg-color);
+  border-radius: 10px 2px 10px 2px;
+  box-shadow: var(--shadow-color) 2px 2px 2px 2px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: var(--font-color);
+  font-weight: 500;
+}
+.warning-icon {
+  color: var(--warning-color);
+}
+.container-room {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+.room {
+  font-weight: 800;
+}
+.info {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.temp {
+  margin: 0 1rem;
+}
+.humid {
+  margin: 0 1rem;
+}
+.reset-btn {
+  font-weight: 400;
+  padding: 0.5rem 0.5rem;
+  background-color: var(--warning-color);
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  height: 35px;
+  margin: auto;
+}
+/******************************************/
+/************* Helper classes ************/
+/********* to be used in Javascript ********/
+/******************************************/
+/********* Adds red border to card *********/
+.alarm {
+  border: 7px solid var(--warning-color);
+  border-radius: 10px 2px 10px 2px;
+}
+/********* Adds red text to status *********/
+.alert {
+  color: var(--warning-color);
+}
+/********* Removes element from DOM *********/
+.hide {
+  visibility: hidden;
+}
+.nodisplay {
+  display: none;
+}
+
+.container-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+}
+
+@media screen and (max-width: 355px) {
+  .card {
+    font-size: x-small;
+    font-weight: 800;
+  }
+  header {
+    font-size: x-small;
+  }
+  .act-btn {
+    margin: auto;
+  }
+  .reset-btn {
+    margin: auto 0;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .card,
+  header {
+    font-size: large;
+  }
+  .reset-btn {
+    margin: auto 0;
+  }
+  .status {
+    font-size: x-large;
+  }
+}
