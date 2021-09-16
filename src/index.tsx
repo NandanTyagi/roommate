@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { MsalProvider } from '@azure/msal-react';
 import { msalInstance } from './MSAL/msalConfigs';
 
@@ -16,7 +16,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <MsalProvider instance={msalInstance}>
-        <App />
+        <App/>
       </MsalProvider>
     </Router>
   </React.StrictMode>,
