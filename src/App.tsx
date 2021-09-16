@@ -5,17 +5,16 @@ import Main from './componets/Main';
 import Data from './Data';
 
 function App() {
-  {
-    const data = Data();
-    console.log('The Data in App', data);
 
-    return (
-      <div className="container-base">
-        <Header />
-        <Main />
-      </div>
-    );
-  }
+  const data = Data();
+  console.log('The Data in App', data);
+
+  return (
+    <div className="container-base">
+      <Header />
+      <Main />
+    </div>
+  );
 }
 
 export default App;
