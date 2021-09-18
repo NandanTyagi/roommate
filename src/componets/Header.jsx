@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react';
 import MenuBtn from './MenuBtn';
 import StatusBar from './StatusBar';
 
-function Header() {
+function Header({ applicationState, setApplicationState }) {
+  console.log('FromHeader', applicationState);
   return (
     <header>
       <div className="title-container">
@@ -12,7 +13,10 @@ function Header() {
         <div className="title">
           <h1>RoomMate</h1>
         </div>
-        <MenuBtn />
+        <MenuBtn
+          applicationState={applicationState}
+          setApplicationState={setApplicationState}
+        />
       </div>
       <StatusBar />
     </header>

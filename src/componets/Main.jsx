@@ -1,9 +1,13 @@
 import React from 'react';
+import { createLogicalOr } from 'typescript';
 import ActButton from './ActButton';
 import Card from './Card';
 
-function Main() {
+function Main({ applicationState }) {
   {
+    if (applicationState.menuOpen) {
+      console.log('From main', applicationState.menuOpen);
+    }
     return (
       <>
         <main className="container-main">
