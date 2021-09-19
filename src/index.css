@@ -18,7 +18,7 @@ body {
 }
 .container-base {
   background-color: var(--main-bg-color);
-  height: 100vh;
+  height: fit-content;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -51,6 +51,9 @@ header {
   padding-right: 0.5rem;
   color: var(--font-color);
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .status-container {
   text-align: center;
@@ -75,19 +78,48 @@ header {
 }
 
 /************** Main ***************/
+.container-main {
+  overflow: scroll;
+  height: 100vh;
+  z-index: 1;
+}
 main {
   overflow: scroll;
+  position: relative;
 }
 /************* Login ****************/
 .login-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  height: 200px;
+  height: 657px;
+  position: absolute;
+  width: 100vw;
+  z-index: 10;
+  top: 19%;
+  padding-top: 5rem;
 }
-.login-container > h1 {
-  margin-bottom: 30px;
+.z {
+  z-index: 1;
+}
+.menu-modal-container {
+  height: 100%;
+  width: 100vw;
+  background-color: black;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  opacity: 0.9;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+.menu-item {
+  list-style-type: none;
+  font-size: xx-large;
+  cursor: pointer;
+  margin-top: 8rem;
 }
 /************* Card ***************/
 .card {
@@ -184,11 +216,47 @@ main {
   .card,
   header {
     font-size: large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .title-container {
+    width: 90vw;
+    justify-self: center;
+  }
+  .status-container {
+    width: 100vw;
   }
   .reset-btn {
     margin: auto 0;
   }
   .status {
     font-size: x-large;
+  }
+  .login-container {
+    top: 17%;
+    height: 870px;
+  }
+}
+@media screen and (min-width: 980px) {
+  main {
+    width: 950px;
+    margin: 0 auto;
+  }
+
+  .card,
+  header {
+    font-size: xx-large;
+  }
+  .reset-btn {
+    margin: auto 0;
+  }
+  .status {
+    font-size: xxx-large;
+  }
+  .login-container {
+    top: 12%;
+    height: 1200px;
   }
 }

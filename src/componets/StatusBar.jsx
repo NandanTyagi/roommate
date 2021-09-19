@@ -1,8 +1,6 @@
-import React, { useState, useContext } from 'react';
 import ActButton from './ActButton';
-import Data from '../Data';
 
-function StatusBar() {
+function StatusBar({ applicationState, setApplicationState }) {
   const isAlarm = false;
   return (
     <>
@@ -18,9 +16,23 @@ function StatusBar() {
       ) : (
         <div className="status-container">
           <h2 className="status alert">
-            Status: <span id="status">1 aktivt larm!</span>
+            Status:{' '}
+            {applicationState.alarms.length > 1 ? (
+              <span id="status">
+                {applicationState.alarms.length} aktiva larm!
+              </span>
+            ) : (
+              <span id="status">
+                {applicationState.alarms.length} aktivt larm!
+              </span>
+            )}
           </h2>
-          <ActButton />
+          {applicationState.loggedIn && (
+            <ActButton
+              applicationState={applicationState}
+              setApplicationState={setApplicationState}
+            />
+          )}
         </div>
       )}
     </>

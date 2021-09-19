@@ -4,32 +4,68 @@ import {
   UnauthenticatedTemplate,
   useMsal,
 } from '@azure/msal-react';
-import React, { useState, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router';
-import './App.css';
 import Header from './componets/Header';
 import Main from './componets/Main';
+import MenuModal from './componets/MenuModal';
 import Data from './Data';
-
-import { loginRequest, msalInstance } from './MSAL/msalConfigs';
 
 function App() {
   const data = Data();
+  const alarms = data.filter((d) => d.isAlarm === true);
   console.log('The Data in App', data);
-  const { inProgress } = useMsal();
+  console.log('Alarms', alarms);
+  const { inProgress, accounts } = useMsal();
+  console.log('Progress', inProgress);
 
-  const [applicationState, setApplicationState] = useState({ menuOpen: false });
+  const [applicationState, setApplicationState] = useState({
+    menuOpen: false,
+    loggedIn: false,
+    showResetBtn: false,
+    rooms: data,
+    alarms: alarms,
+  });
+  useEffect(() => {
+    setTimeout(() => {
+      if (accounts.length > 0) {
+        setApplicationState({ ...applicationState, loggedIn: true });
+      } else {
+        setApplicationState({ ...applicationState, loggedIn: false });
+      }
+    }, 200);
+  }, [accounts]);
 
-  console.log('App state', applicationState);
   return (
     <>
-      {/* {inProgress === InteractionStatus.Login && <h1>LADDDDAAAAR!!!!</h1>} */}
       <AuthenticatedTemplate>
         <div className="container-base">
-          <Header />
+          <Header
+            applicationState={applicationState}
+            setApplicationState={setApplicationState}
+          />
+          {applicationState.menuOpen ? (
+            <div className="login-container">
+              {applicationState.menuOpen && applicationState.loggedIn ? (
+                <MenuModal
+                  applicationState={applicationState}
+                  setApplicationState={setApplicationState}
+                />
+              ) : null}
+            </div>
+          ) : (
+            <div className="login-container z">
+              {applicationState.menuOpen && applicationState.loggedIn ? (
+                <MenuModal
+                  applicationState={applicationState}
+                  setApplicationState={setApplicationState}
+                />
+              ) : null}
+            </div>
+          )}
           <Main
-          // applicationState={applicationState}
-          // setApplicationState={setApplicationState}
+            applicationState={applicationState}
+            setApplicationState={setApplicationState}
           />
         </div>
       </AuthenticatedTemplate>
@@ -38,15 +74,17 @@ function App() {
           applicationState={applicationState}
           setApplicationState={setApplicationState}
         />
+
         <div className="login-container">
-          <h1>Utloggad</h1>
-          <button
-            onClick={() => {
-              msalInstance.loginPopup(loginRequest);
-            }}
-          >
-            Sign in
-          </button>
+          {applicationState.menuOpen && (
+            <MenuModal
+              applicationState={applicationState}
+              setApplicationState={setApplicationState}
+            />
+          )}
+          <h2>Utloggad</h2>
+          <br />
+          <h3>Tryck på menyn för att logga in!</h3>
         </div>
       </UnauthenticatedTemplate>
     </>

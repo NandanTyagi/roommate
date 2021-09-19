@@ -1,4 +1,3 @@
-import React, { useState, useContext } from 'react';
 import MenuBtn from './MenuBtn';
 import StatusBar from './StatusBar';
 
@@ -18,7 +17,10 @@ function Header({ applicationState, setApplicationState }) {
           setApplicationState={setApplicationState}
         />
       </div>
-      <StatusBar />
+      <StatusBar
+        applicationState={applicationState}
+        setApplicationState={setApplicationState}
+      />
     </header>
   );
 }

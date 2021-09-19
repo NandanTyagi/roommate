@@ -1,7 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import ResetButton from './ResetButton';
 
-function Card({ id, name, temp, humid, isTempAlarm, isHumidAlarm, isReset }) {
+function Card({
+  id,
+  name,
+  temp,
+  humid,
+  isTempAlarm,
+  isHumidAlarm,
+  isReset,
+  isAlarm,
+  applicationState,
+}) {
   const [cardId, setCardId] = useState(id);
   const [cardName, setCardName] = useState(name);
   const [cardTemp, setCardTemp] = useState(temp);
@@ -45,7 +55,9 @@ function Card({ id, name, temp, humid, isTempAlarm, isHumidAlarm, isReset }) {
             )}
           </div>
         </div>
-        <ResetButton hide={cardResetBtn} id={id} />
+        {applicationState.showResetBtn && (
+          <ResetButton hide={isAlarm} id={id} />
+        )}
       </div>
     </>
   );

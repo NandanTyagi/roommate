@@ -1,49 +1,27 @@
-import React from 'react';
-import { createLogicalOr } from 'typescript';
-import ActButton from './ActButton';
-import Card from './Card';
+import { useState, useEffect } from 'react';
+import AllRooms from './AllRooms';
+import AlarmedRooms from './AlarmedRooms';
 
 function Main({ applicationState }) {
-  {
-    if (applicationState.menuOpen) {
-      console.log('From main', applicationState.menuOpen);
+  const [render, setRender] = useState(false);
+  console.log('From main', applicationState.showResetBtn);
+
+  useEffect(() => {
+    if (applicationState.showResetBtn) {
+      setRender(true);
+      console.log('From main', render);
     }
-    return (
-      <>
-        <main className="container-main">
-          <div className="container-grid">
-            <Card
-              id={'1'}
-              name={'name'}
-              temp={'temp'}
-              humid={'humid'}
-              isTempAlarm={true}
-              isHumidAlarm={true}
-              isReset={true}
-            />
-            <Card
-              id={'1'}
-              name={'name'}
-              temp={'temp'}
-              humid={'humid'}
-              isTempAlarm={true}
-              isHumidAlarm={false}
-              isReset={true}
-            />
-            <Card
-              id={'1'}
-              name={'name'}
-              temp={'temp'}
-              humid={'humid'}
-              isTempAlarm={false}
-              isHumidAlarm={false}
-              isReset={false}
-            />
-          </div>
-        </main>
-      </>
-    );
-  }
+  }, [applicationState.showResetBtn]);
+
+  return (
+    <>
+      {!applicationState.showResetBtn ? (
+        <AllRooms applicationState={applicationState} />
+      ) : (
+        <AlarmedRooms applicationState={applicationState} />
+      )}
+    </>
+  );
 }
 
 export default Main;
