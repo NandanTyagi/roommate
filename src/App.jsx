@@ -25,11 +25,20 @@ function App() {
     showResetBtn: false,
     rooms: data,
     alarms: alarms,
+    user: '',
   });
+
+  console.log('ApplicationState', applicationState);
   useEffect(() => {
     setTimeout(() => {
+      setApplicationState({ ...applicationState, user: accounts });
       if (accounts.length > 0) {
-        setApplicationState({ ...applicationState, loggedIn: true });
+        setApplicationState({
+          ...applicationState,
+          loggedIn: true,
+          user: accounts[0].username,
+        });
+        console.log('Accout', accounts[0].username);
       } else {
         setApplicationState({ ...applicationState, loggedIn: false });
       }
@@ -55,12 +64,12 @@ function App() {
             </div>
           ) : (
             <div className="login-container z">
-              {applicationState.menuOpen && applicationState.loggedIn ? (
+              {/* {applicationState.menuOpen && applicationState.loggedIn ? (
                 <MenuModal
                   applicationState={applicationState}
                   setApplicationState={setApplicationState}
                 />
-              ) : null}
+              ) : null} */}
             </div>
           )}
           <Main

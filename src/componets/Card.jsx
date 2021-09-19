@@ -11,6 +11,7 @@ function Card({
   isReset,
   isAlarm,
   applicationState,
+  setApplicationState,
 }) {
   const [cardId, setCardId] = useState(id);
   const [cardName, setCardName] = useState(name);
@@ -56,7 +57,12 @@ function Card({
           </div>
         </div>
         {applicationState.showResetBtn && (
-          <ResetButton hide={isAlarm} id={id} />
+          <ResetButton
+            hide={isAlarm}
+            id={cardId}
+            applicationState={applicationState}
+            setApplicationState={setApplicationState}
+          />
         )}
       </div>
     </>

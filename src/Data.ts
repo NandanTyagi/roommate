@@ -38,7 +38,7 @@ const Data = () => {
       isTempAlarm: true,
       isHumidAlarm: false,
       isReset: false,
-      isAlarm: false,
+      isAlarm: true,
     },
     {
       id: '55350997-9be4-4745-b94d-3b9fad7ea795',

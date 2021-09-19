@@ -3,7 +3,7 @@ import { loginRequest, msalInstance } from '../MSAL/msalConfigs';
 const Login = ({ applicationState, setApplicationState }) => {
   return (
     <li
-      className="menu-item"
+      className="menu-item log-btn"
       id="menu-login-btn"
       style={{ color: 'white' }}
       onClick={() => {

@@ -2,7 +2,6 @@ import MenuBtn from './MenuBtn';
 import StatusBar from './StatusBar';
 
 function Header({ applicationState, setApplicationState }) {
-  console.log('FromHeader', applicationState);
   return (
     <header>
       <div className="title-container">
