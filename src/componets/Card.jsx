@@ -19,10 +19,14 @@ function Card({
   const [cardHumid, setCardHumid] = useState(humid);
   const [cardIsTempAlarm, setCardIsTempAlarm] = useState(isTempAlarm);
   const [cardIsHumidAlarm, setCardIsHumidAlarm] = useState(isHumidAlarm);
+  const [cardIsAlarm, setCardIsAlarm] = useState(isAlarm);
   const [cardResetBtn, setCardResetBtn] = useState(isReset);
   return (
     <>
-      <div className={'card'} id={'card-' + cardId}>
+      <div
+        className={cardIsAlarm ? 'card alarm' : 'card'}
+        id={'card-' + cardId}
+      >
         <div className="container-room">
           <div className="room" id="room-1-name">
             {cardName}

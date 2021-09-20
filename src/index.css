@@ -14,20 +14,31 @@
 }
 body {
   font-family: 'Lato', sans-serif;
-  overflow: hidden;
+  overflow: scroll;
   background-color: var(--main-bg-color);
+  height: fit-content;
 }
 .container-base {
   height: fit-content;
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: hidden;
   overflow-x: hidden;
 }
 /*********** Header ****************/
 header {
   width: 100vw;
+  height: 170px;
+  position: fixed;
+  top: 0;
+  z-index: 9;
+  background-color: var(--main-bg-color);
+}
+.header-clearfix {
+  width: 100vw;
+  height: 170px;
+  border: 1px solid black;
 }
 .title-container {
   display: flex;
@@ -79,11 +90,12 @@ header {
 
 /************** Main ***************/
 .container-main {
-  overflow: scroll;
+  /* overflow: scroll; */
   height: 100vh;
   z-index: 1;
 }
 main {
+  height: 100vh;
   overflow: scroll;
   position: relative;
 }
@@ -239,6 +251,9 @@ main {
     justify-content: space-around;
     align-items: center;
   }
+  main {
+    overflow: hidden;
+  }
   .card {
     flex-direction: row;
   }
@@ -260,18 +275,22 @@ main {
     height: 870px;
   }
 }
-@media screen and (min-width: 980px) {
+@media screen and (min-width: 920px) {
   main {
-    width: 950px;
+    width: 920px;
     margin: 0 auto;
+    overflow: hidden;
   }
-
-  .card,
   header {
     font-size: large;
   }
+  .card {
+    justify-content: space-evenly;
+    width: fit-content;
+    font-size: medium;
+  }
   .reset-btn {
-    margin: auto 0;
+    margin: auto 0 auto 1rem;
   }
   .status {
     font-size: x-large;

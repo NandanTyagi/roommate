@@ -4,6 +4,7 @@ import Card from './Card';
 const AllRooms = ({ applicationState, setApplicationState }) => {
   return (
     <>
+      <div className="header-clearfix"></div>
       <main className="container-main">
         <div className="container-grid">
           {applicationState.rooms.map((r) => (
