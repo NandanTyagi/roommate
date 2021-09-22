@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ResetButton from './ResetButton';
 
 function Card({
@@ -21,6 +21,21 @@ function Card({
   const [cardIsHumidAlarm, setCardIsHumidAlarm] = useState(isHumidAlarm);
   const [cardIsAlarm, setCardIsAlarm] = useState(isAlarm);
   const [cardResetBtn, setCardResetBtn] = useState(isReset);
+
+  console.log('From card', cardTemp);
+
+  useEffect(() => {
+    console.log('Testing', applicationState);
+    const comparedRoom = applicationState.rooms.filter(
+      (r) => r.name === cardId,
+    );
+    // if (comparedRoom.humidity !== null) {
+    //   setCardHumid(comparedRoom.humidity);
+    // }
+    // setCardTemp(comparedRoom.temp);
+
+    console.log('Compare Room', comparedRoom);
+  }, [applicationState.rooms[0].humidity, applicationState.rooms[0].temp]);
   return (
     <>
       <div
@@ -34,7 +49,7 @@ function Card({
           <div className="info">
             Värme:
             <span className="temp normal" id="room-1-temp">
-              {cardTemp}
+              {cardTemp + '°C'}
             </span>
             {cardIsTempAlarm && (
               <span className="warning-icon-container">
@@ -48,7 +63,7 @@ function Card({
           <div className="info">
             Luft Fuktighet:
             <span className="humid normal" id="room-1-humid">
-              {cardHumid}
+              {cardHumid ? cardHumid + '%' : 'N/A'}
             </span>
             {cardIsHumidAlarm && (
               <span className="warning-icon-container">
