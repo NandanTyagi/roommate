@@ -96,6 +96,37 @@ function App() {
     }
   }, [inProgress, applicationState.rooms, accounts, applicationState.units])
 
+  const [connection, setConnection] = useState < signalR.HubConnection | null > (null);
+
+
+  useEffect(() => {
+    if (inProgress === 'none') {
+
+      //Checks if user is logged in
+      if (accounts.length > 0) {
+
+        getNegotiationUrl().then(r => {
+
+          const newConnection = new signalR.HubConnectionBuilder()
+            .withUrl(r.url, {
+              accessTokenFactory: () => {
+                return r.accessToken
+              },
+            })
+            .withAutomaticReconnect()
+            .build();
+
+          console.log("new connection", newConnection);
+          newConnection.start().then(() => {
+            setConnection(newConnection);
+          })
+
+
+
+        })
+      }
+    }
+  }, [inProgress, accounts])
 
   useEffect(() => {
     if (connection && applicationState.rooms) {
