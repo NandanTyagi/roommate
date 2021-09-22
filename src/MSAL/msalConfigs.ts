@@ -7,7 +7,7 @@ export const msalConfig: Configuration = {
     authority: "https://login.microsoftonline.com/9bfa1706-1ffc-494d-a63e-dbbb34c4796b",
     redirectUri: "https://localhost:5000/signin_callback",
     postLogoutRedirectUri: "/",
-    protocolMode: ProtocolMode.OIDC
+    protocolMode: ProtocolMode.AAD
   }
 };
 
@@ -27,5 +27,6 @@ msalInstance.addEventCallback((event: EventMessage) => {
 });
 
 export const loginRequest: PopupRequest = {
-  scopes: ["User.Read"]
+  scopes: [`api://957fee47-d75a-4f21-a073-f68815061809/access_as_a_user`]
+
 };
