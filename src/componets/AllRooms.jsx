@@ -9,8 +9,8 @@ const AllRooms = ({ applicationState, setApplicationState }) => {
         <div className="container-grid">
           {applicationState.rooms.map((r) => (
             <Card
-              key={r.id}
-              id={r.id}
+              key={r.tempSensorId}
+              id={r.tempSensorId}
               name={r.name}
               temp={r.temp}
               humid={r.humidity}

@@ -17,13 +17,13 @@ function StatusBar({ applicationState, setApplicationState }) {
         <div className="status-container">
           <h2 className="status alert">
             Status:{' '}
-            {applicationState.alarms.length > 1 ? (
+            {applicationState.alarms?.length > 1 ? (
               <span id="status">
-                {applicationState.alarms.length} aktiva larm!
+                {applicationState.alarms?.length} aktiva larm!
               </span>
             ) : (
               <span id="status">
-                {applicationState.alarms.length} aktivt larm!
+                {applicationState.alarms?.length} aktivt larm!
               </span>
             )}
           </h2>

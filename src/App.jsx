@@ -10,27 +10,40 @@ import Header from './componets/Header';
 import Main from './componets/Main';
 import MenuModal from './componets/MenuModal';
 import Data from './Data';
+import { createConnection, getNegotiationUrl, updateStateFromSignalRTelemetry } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
 
 function App() {
-  const data = Data();
-  const alarms = data.filter((d) => d.isAlarm === true);
-  console.log('The Data in App', data);
-  console.log('Alarms', alarms);
+  // const data = Data();
+
+  // console.log('The Data in App', data);
+  // console.log('Alarms', alarms);
   const { inProgress, accounts } = useMsal();
-  console.log('Progress', inProgress);
+  // console.log('Progress', inProgress);
 
   const [applicationState, setApplicationState] = useState({
     menuOpen: false,
     loggedIn: false,
     showResetBtn: false,
     rooms: null,
-    alarms: alarms,
+    alarms: null,
     user: '',
+    units: null
   });
 
-  console.log('ApplicationState', applicationState);
+  const [signalRConnection, setSignalRConnection] = useState(null);
+
+  useEffect(() => {
+    if (applicationState.rooms != null) {
+      console.log("recalculate alarms");
+      const alarms = applicationState.rooms.filter((d) => d.isAlarm === true);
+      setApplicationState(prev => ({ ...prev, alarms: alarms }));
+    }
+  }, [applicationState.rooms])
+
+
+  // console.log('ApplicationState', applicationState);
   useEffect(() => {
     setTimeout(() => {
       setApplicationState({ ...applicationState, user: accounts });
@@ -40,7 +53,7 @@ function App() {
           loggedIn: true,
           user: accounts[0].username,
         });
-        console.log('Accout', accounts[0].username);
+        // console.log('Accout', accounts[0].username);
       } else {
         setApplicationState({ ...applicationState, loggedIn: false });
       }
@@ -65,7 +78,7 @@ function App() {
           smartHutAction("getUnits").then(res => {
             if (res != null) {
               const unitsData = res.data;
-              console.log("unit data", unitsData);
+              // console.log("unit data", unitsData);
             }
           })
         }
@@ -81,7 +94,7 @@ function App() {
               //Gives us an object that is defined as "type ApiDataObject" in types.ts.
               const data = createApiDataFromGetBuildingAndDevicesData(buildingAndDevicesData)
 
-              console.log("data object created", data);
+              // console.log("data object created", data);
 
               setApplicationState(prev => ({ ...prev, rooms: data }));
 
@@ -96,7 +109,6 @@ function App() {
     }
   }, [inProgress, applicationState.rooms, accounts, applicationState.units])
 
-  const [connection, setConnection] = useState < signalR.HubConnection | null > (null);
 
 
   useEffect(() => {
@@ -107,49 +119,20 @@ function App() {
 
         getNegotiationUrl().then(r => {
 
-          const newConnection = new signalR.HubConnectionBuilder()
-            .withUrl(r.url, {
-              accessTokenFactory: () => {
-                return r.accessToken
-              },
-            })
-            .withAutomaticReconnect()
-            .build();
+          const newConnection = createConnection(r.url, r.accessToken);
 
-          console.log("new connection", newConnection);
           newConnection.start().then(() => {
-            setConnection(newConnection);
+            newConnection.on('newTelemetry', (data) => {
+              updateStateFromSignalRTelemetry(setApplicationState, applicationState, data[0])
+            });
+            setSignalRConnection(newConnection);
           })
-
-
 
         })
       }
     }
   }, [inProgress, accounts])
 
-  useEffect(() => {
-    if (connection && applicationState.rooms) {
-      console.log("connection state", connection.state);
-
-      connection.on('newTelemetry', (data: SmartHut.NewTelemetry[]) => {
-        const tel = data[0];
-        // console.log("new telemetry", tel);
-        const currentState = { ...applicationState };
-        currentState.rooms?.forEach(o => {
-          const deviceId = tel.deviceId.toLocaleLowerCase();
-          if (o.humiditySensorId === deviceId) {
-            o.humidity = tel.value.toString();
-          }
-          if (o.tempSensorId === deviceId) {
-            o.temp = tel.value.toString();
-          }
-        })
-        setApplicationState(prev => ({ ...prev, rooms: applicationState.rooms }))
-      });
-
-    }
-  }, [connection, applicationState]);
 
 
   return (
