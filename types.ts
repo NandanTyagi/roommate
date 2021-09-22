@@ -51,6 +51,24 @@ export namespace SmartHut {
     buildingId: string;
     value: number;
     time: number;
+  }
+
 }
 
+
+export type ApiDataObject = {
+  id?: string;
+  name?: string;
+  temp?: string;
+  humidity?: string;
+  humiditySensorId?: string;
+  maxHumidity?: number;
+  minHumidity?: number;
+  maxTemp?: number;
+  minTemp?: number;
+  tempSensorId?: string
+  isTempAlarm?: boolean;
+  isHumidAlarm?: boolean;
+  isReset?: boolean;
+  isAlarm?: boolean;
 }

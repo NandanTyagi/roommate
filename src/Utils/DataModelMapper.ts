@@ -1,5 +1,5 @@
 import { SmartHut } from "../../types";
-import { ApiDataObject } from '../Data';
+import { ApiDataObject } from '../../types';
 import React from "react";
 
 export interface Locations {
