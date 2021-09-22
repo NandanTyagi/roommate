@@ -110,7 +110,7 @@ function App() {
   }, [inProgress, applicationState.rooms, accounts, applicationState.units])
 
 
-
+  //In this useeffect all signalR configs are made. negotiation => connection => listening to events
   useEffect(() => {
     if (inProgress === 'none') {
 
