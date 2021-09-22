@@ -1,3 +1,11 @@
+import { SmartHut } from "../../types";
+import { ApiDataObject } from '../Data';
+import React from "react";
+
+export interface Locations {
+  [key: string]: SmartHut.DeviceExtended[] | null
+}
+
 
 export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBuildingAndDevicesData) => ApiDataObject[] | null = (input) => {
 
