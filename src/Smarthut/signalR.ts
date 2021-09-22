@@ -65,11 +65,13 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
 }>>
   , state: { rooms: ApiDataObject[] }, data: SmartHut.NewTelemetry)
   => void = (setter, state, data) => {
-
     const isHumidity = state.rooms.some(o => o.humiditySensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
     let index: number;
     if (isHumidity) {
+      console.log("is humidity");
       index = state.rooms.findIndex(o => o.humiditySensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
+      const currentObject = { ...state.rooms[index] };
+      currentObject.humidity = data.value.toString();
       if (index != null) {
         setter(prev => ({
           ...prev,
@@ -84,9 +86,11 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
         }))
 
       }
-    }
-    else {
+    } else {
+      console.log("is temp");
       index = state.rooms.findIndex(o => o.tempSensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
+      const currentObject = { ...state.rooms[index] };
+      currentObject.temp = data.value.toString();
       if (index != null) {
         setter(prev => ({
           ...prev,
@@ -99,6 +103,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
             ...prev.rooms.slice(index + 1)
           ]
         }))
+
       }
     }
   }

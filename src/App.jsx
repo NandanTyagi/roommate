@@ -22,11 +22,13 @@ function App() {
   const { inProgress, accounts } = useMsal();
   // console.log('Progress', inProgress);
 
+  const [getBuildingAndDevicesFetching, setGetBuildingAndDevicesFetching] = useState(false);
+
   const [applicationState, setApplicationState] = useState({
     menuOpen: false,
     loggedIn: false,
     showResetBtn: false,
-    rooms: null,
+    rooms: [],
     alarms: null,
     user: '',
     units: null
@@ -35,6 +37,9 @@ function App() {
   const [signalRConnection, setSignalRConnection] = useState(null);
 
   useEffect(() => {
+    console.log("current state", applicationState.rooms);
+
+
     if (applicationState.rooms != null) {
       console.log("recalculate alarms");
       const alarms = applicationState.rooms.filter((d) => d.isAlarm === true);
@@ -86,7 +91,10 @@ function App() {
 
         //this action takes an ID which is hard coded here, because we are only making the application for one Hotel, right?
         //However the smartHutAction-function could be called in two steps (first getBuilding to get the id and then getBuildoingDevices...
-        if (!applicationState.rooms) {
+        if (applicationState.rooms.length < 1 && !getBuildingAndDevicesFetching) {
+
+          console.log("get building devices going!!!");
+          setGetBuildingAndDevicesFetching(true);
           smartHutAction("getBuildingAndDevices", { id: "55350997-9be4-4746-b94d-3b9fad7ea795" }).then((res) => {
             if (res != null) {
               const buildingAndDevicesData = res.data;
@@ -97,6 +105,7 @@ function App() {
               // console.log("data object created", data);
 
               setApplicationState(prev => ({ ...prev, rooms: data }));
+              setGetBuildingAndDevicesFetching(false);
 
 
 
@@ -117,23 +126,28 @@ function App() {
       //Checks if user is logged in
       if (accounts.length > 0) {
 
-        getNegotiationUrl().then(r => {
+        if (!signalRConnection) {
+          if (applicationState.rooms.length > 0) {
 
-          const newConnection = createConnection(r.url, r.accessToken);
+            getNegotiationUrl().then(r => {
 
-          newConnection.start().then(() => {
-            newConnection.on('newTelemetry', (data) => {
-              updateStateFromSignalRTelemetry(setApplicationState, applicationState, data[0])
-            });
-            setSignalRConnection(newConnection);
-          })
+              const newConnection = createConnection(r.url, r.accessToken);
 
-        })
+              newConnection.start().then(() => {
+                newConnection.on('newTelemetry', (data) => {
+                  console.log("new telemetry");
+                  const state = { ...applicationState };
+                  updateStateFromSignalRTelemetry(setApplicationState, state, data[0])
+                });
+                setSignalRConnection(newConnection);
+              })
+
+            })
+          }
+        }
       }
     }
-  }, [inProgress, accounts])
-
-
+  }, [inProgress, accounts, applicationState, signalRConnection])
 
   return (
     <>
@@ -162,10 +176,31 @@ function App() {
               ) : null} */}
             </div>
           )}
-          {applicationState.rooms && <Main
+
+          {/* ATT OMARBETA KOMPONENTERNA. NÅGOT ANTIPATTERN SKER SOM GÖR ATT DE INTE OMRENDERAS NÄR APPLIKATIONSTILLSTÅNDET UPPDATERAS */}
+
+          {/* {applicationState.rooms.length > 0 && <Main
             applicationState={applicationState}
             setApplicationState={setApplicationState}
-          />}
+          />} */}
+
+
+          {/* TEST FÖR ATT SE ATT STATE FUNGERAR */}
+          {applicationState.rooms.length > 0 &&
+            <div style={{ position: "fixed", zIndex: 200, top: "200px", height: "600px" }}>
+
+              {applicationState.rooms.map((r, i) => {
+                return (
+                  <>
+                    <h1>{r.name}</h1>
+                    <p>{r.temp}</p>
+                    <p>{r.humidity}</p>
+                  </>
+                )
+              })
+              }
+            </div>
+          }
 
         </div>
       </AuthenticatedTemplate>
