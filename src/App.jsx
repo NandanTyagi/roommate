@@ -97,6 +97,30 @@ function App() {
   }, [inProgress, applicationState.rooms, accounts, applicationState.units])
 
 
+  useEffect(() => {
+    if (connection && applicationState.rooms) {
+      console.log("connection state", connection.state);
+
+      connection.on('newTelemetry', (data: SmartHut.NewTelemetry[]) => {
+        const tel = data[0];
+        // console.log("new telemetry", tel);
+        const currentState = { ...applicationState };
+        currentState.rooms?.forEach(o => {
+          const deviceId = tel.deviceId.toLocaleLowerCase();
+          if (o.humiditySensorId === deviceId) {
+            o.humidity = tel.value.toString();
+          }
+          if (o.tempSensorId === deviceId) {
+            o.temp = tel.value.toString();
+          }
+        })
+        setApplicationState(prev => ({ ...prev, rooms: applicationState.rooms }))
+      });
+
+    }
+  }, [connection, applicationState]);
+
+
   return (
     <>
       <AuthenticatedTemplate>
