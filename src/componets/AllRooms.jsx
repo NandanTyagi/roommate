@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from './Card';
 
 const AllRooms = ({ applicationState, setApplicationState }) => {
+  // const [rooms, setRooms] = useState(applicationState.rooms);
+
   return (
     <>
       <div className="header-clearfix"></div>
@@ -10,7 +12,7 @@ const AllRooms = ({ applicationState, setApplicationState }) => {
           {applicationState.rooms.map((r) => (
             <Card
               key={r.tempSensorId}
-              id={r.tempSensorId}
+              id={r.name}
               name={r.name}
               temp={r.temp}
               humid={r.humidity}

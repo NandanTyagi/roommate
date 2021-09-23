@@ -4,10 +4,10 @@ function StatusBar({ applicationState, setApplicationState }) {
   const isAlarm = false;
   return (
     <>
-      {isAlarm ? (
+      {applicationState.alarms.length === 0 ? (
         <div className="status-container">
           <h2 className="status">
-            Status: <span id="status">Inga larm!</span>
+            Status: <span id="status">Inga larm</span>
           </h2>
           <div className="act-btn nodisplay" id="act-btn">
             Åtgärda
