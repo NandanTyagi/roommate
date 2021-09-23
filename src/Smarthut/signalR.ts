@@ -39,7 +39,7 @@ export const createConnection: (url: string, token: string) => HubConnection = (
         return token
       },
     })
-    .withAutomaticReconnect()
+    // .withAutomaticReconnect()
     .build();
 
   return newConnection;

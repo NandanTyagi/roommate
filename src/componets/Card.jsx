@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ResetButton from './ResetButton';
 
 function Card({
@@ -21,22 +21,22 @@ function Card({
   const [cardIsHumidAlarm, setCardIsHumidAlarm] = useState(isHumidAlarm);
   const [cardIsAlarm, setCardIsAlarm] = useState(isAlarm);
   const [cardResetBtn, setCardResetBtn] = useState(isReset);
+
+  console.log('From card', cardTemp);
+
   return (
     <>
-      <div
-        className={cardIsAlarm ? 'card alarm' : 'card'}
-        id={'card-' + cardId}
-      >
+      <div className={isAlarm ? 'card alarm' : 'card'} id={'card-' + id}>
         <div className="container-room">
           <div className="room" id="room-1-name">
-            {cardName}
+            {name}
           </div>
           <div className="info">
             Värme:
             <span className="temp normal" id="room-1-temp">
-              {cardTemp}
+              {temp + '°C'}
             </span>
-            {cardIsTempAlarm && (
+            {isTempAlarm && (
               <span className="warning-icon-container">
                 <i
                   className="warning-icon fas fa-exclamation"
@@ -48,9 +48,9 @@ function Card({
           <div className="info">
             Luft Fuktighet:
             <span className="humid normal" id="room-1-humid">
-              {cardHumid}
+              {humid ? humid + '%' : 'N/A'}
             </span>
-            {cardIsHumidAlarm && (
+            {isHumidAlarm && (
               <span className="warning-icon-container">
                 <i
                   className="warning-icon fas fa-exclamation"
@@ -63,7 +63,7 @@ function Card({
         {applicationState.showResetBtn && (
           <ResetButton
             hide={isAlarm}
-            id={cardId}
+            id={id}
             applicationState={applicationState}
             setApplicationState={setApplicationState}
           />
