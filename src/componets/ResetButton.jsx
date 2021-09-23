@@ -13,12 +13,10 @@ const ResetButton = ({ hide, id, applicationState, setApplicationState }) => {
     applicationState.rooms.map((r) => {
       if (r.id === currentRoomId && r.isHumidAlarm) {
         console.log('This room has a humidityalarm', r);
-        setApplicationState({ ...applicationState, deviceId: r.tempSensorId });
         // Do something with API
       }
       if (r.id === currentRoomId && r.isTempAlarm) {
         console.log('This room has a tepmrature alarm', r);
-        setApplicationState({ ...applicationState, deviceId: r.humiditySensorId });
         // Do something with API
       }
     });
