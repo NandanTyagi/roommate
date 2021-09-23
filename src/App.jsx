@@ -13,6 +13,7 @@ import Data from './Data';
 import { createConnection, getNegotiationUrl, updateStateFromSignalRTelemetry } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
+import Footer from './componets/Footer';
 
 function App() {
   // const data = Data();
@@ -168,25 +169,25 @@ function App() {
             </div>
           ) : (
             <div className="login-container z">
-              {/* {applicationState.menuOpen && applicationState.loggedIn ? (
+               {applicationState.menuOpen && applicationState.loggedIn ? (
                 <MenuModal
                   applicationState={applicationState}
                   setApplicationState={setApplicationState}
                 />
-              ) : null} */}
+              ) : null} 
             </div>
           )}
 
           {/* ATT OMARBETA KOMPONENTERNA. NÅGOT ANTIPATTERN SKER SOM GÖR ATT DE INTE OMRENDERAS NÄR APPLIKATIONSTILLSTÅNDET UPPDATERAS */}
-
-          {/* {applicationState.rooms.length > 0 && <Main
+              
+           {applicationState.rooms.length > 0 && <Main
             applicationState={applicationState}
             setApplicationState={setApplicationState}
-          />} */}
+          />} 
 
 
           {/* TEST FÖR ATT SE ATT STATE FUNGERAR */}
-          {applicationState.rooms.length > 0 &&
+          {/*applicationState.rooms.length > 0 &&
             <div style={{ position: "fixed", zIndex: 200, top: "200px", height: "600px" }}>
 
               {applicationState.rooms.map((r, i) => {
@@ -200,9 +201,10 @@ function App() {
               })
               }
             </div>
-          }
+         */ }
 
         </div>
+        <Footer></Footer>
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>
         <Header
@@ -221,6 +223,7 @@ function App() {
           <br />
           <h3>Tryck på menyn för att logga in!</h3>
         </div>
+        <Footer></Footer>
       </UnauthenticatedTemplate>
     </>
   );
