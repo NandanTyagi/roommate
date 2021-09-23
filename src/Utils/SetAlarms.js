@@ -4,22 +4,26 @@ export const SetAlarms = (appState, setAppState) => {
   console.log('current state', appState.rooms);
   // Create new room array
   let newRooms = [];
+  let newAlarmedRooms = [];
   // If there are rooms in the application state
   if (appState.rooms != null) {
     console.log('recalculate alarms');
     // Itterate over the rooms
     appState.rooms.forEach((r, i) => {
       // Identify the oldRoom object
-      let oldRoom = appState.rooms[i];
+      let currentRoom = appState.rooms[i];
       // Identify the temprature parameters for current room
       const maxTemp = r.maxTemp;
       const minTemp = r.minTemp;
       const temp = r.temp;
+      console.log("ooooooooTEMP", temp, temp + 10);
       // Set conditions for the min an max temprature
       if (maxTemp < temp || minTemp > temp) {
         // If alarm conditions are met set alarm to true
-        oldRoom.isAlarm = true;
-        oldRoom.isTempAlarm = true;
+        currentRoom.isTempAlarm = true;
+      }
+      else {
+        currentRoom.isTempAlarm = false;
       }
 
       // If humidity sensor exists
@@ -31,18 +35,27 @@ export const SetAlarms = (appState, setAppState) => {
         // Set conditions for the min an max humidity
         if (maxHumidity < humidity || minHumidity > humidity) {
           // If alarm conditions are met set alarm to true
-          oldRoom.isAlarm = true;
-          oldRoom.isHumidAlarm = true;
+          currentRoom.isHumidAlarm = true;
+        }
+        else {
+          currentRoom.isHumidAlarm = false;
+        }
+
+        if((currentRoom.isHumidAlarm === true) || (currentRoom.isTempAlarm === true)){
+          currentRoom.isAlarm = true;
+        }
+        else{
+          currentRoom.isAlarm = false;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
-        newRooms.push(oldRoom);
+        newRooms.push(currentRoom);
       }
       // Add the newRooms array to the applicationState.rooms array
       setAppState((prev) => ({ ...prev, rooms: newRooms }));
 
       console.log('Checking newAppState', appState);
       console.log('Checking newRooms', newRooms);
-      console.log('Checking oldRoom', oldRoom);
+      console.log('Checking oldRoom', currentRoom);
       console.log('Checking i', i);
       console.log('Checking max temp', maxTemp);
       console.log('Checking min temp', minTemp);
