@@ -3,6 +3,7 @@ import { loginRequest, msalInstance } from "../MSAL/msalConfigs";
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr'
 import React from "react";
 import { ApiDataObject, SmartHut } from "../../types";
+import { CLIENT_RENEG_LIMIT } from "tls";
 
 
 export const getNegotiationUrl = async () => {
@@ -53,8 +54,8 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
   alarms: {
     id: string;
     name: string;
-    temp: string;
-    humidity: string;
+    temp: number;
+    humidity: number;
     isTempAlarm: boolean;
     isHumidAlarm: boolean;
     isReset: boolean;
@@ -71,7 +72,10 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
       console.log("is humidity");
       index = state.rooms.findIndex(o => o.humiditySensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
       const currentObject = { ...state.rooms[index] };
-      currentObject.humidity = data.value.toString();
+      const humidFormatter = data.value;
+      const formattedHumidity = Math.round(humidFormatter * 10) / 10;
+      console.log("value", formattedHumidity, humidFormatter);
+      currentObject.humidity = data.value
       if (index != null) {
         setter(prev => ({
           ...prev,
@@ -79,7 +83,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
             ...prev.rooms.slice(0, index),
             {
               ...prev.rooms[index],
-              humidity: data.value.toString()
+              humidity: formattedHumidity
             },
             ...prev.rooms.slice(index + 1)
           ]
@@ -90,7 +94,9 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
       console.log("is temp");
       index = state.rooms.findIndex(o => o.tempSensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
       const currentObject = { ...state.rooms[index] };
-      currentObject.temp = data.value.toString();
+      const tempFormatter = data.value;
+      const formattedTemp = Math.round(tempFormatter * 10) / 10;
+      currentObject.temp = data.value
       if (index != null) {
         setter(prev => ({
           ...prev,
@@ -98,7 +104,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
             ...prev.rooms.slice(0, index),
             {
               ...prev.rooms[index],
-              temp: data.value.toString()
+              temp: formattedTemp
             },
             ...prev.rooms.slice(index + 1)
           ]

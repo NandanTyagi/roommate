@@ -23,6 +23,11 @@ function Card({
   const [cardResetBtn, setCardResetBtn] = useState(isReset);
 
   console.log('From card', cardTemp);
+  useEffect (() => {
+    setCardTemp(temp);
+    setCardHumid(humid);
+    console.log("From card effects", cardHumid, cardTemp, "is humidalarm:", isHumidAlarm, "isAlarm:" , isAlarm, "isTempAlarm:", isTempAlarm);
+  }, [humid, temp])
 
   return (
     <>
@@ -34,7 +39,7 @@ function Card({
           <div className="info">
             Värme:
             <span className="temp normal" id="room-1-temp">
-              {temp + '°C'}
+              {cardTemp + '°C'}
             </span>
             {isTempAlarm && (
               <span className="warning-icon-container">
@@ -48,7 +53,7 @@ function Card({
           <div className="info">
             Luft Fuktighet:
             <span className="humid normal" id="room-1-humid">
-              {humid ? humid + '%' : 'N/A'}
+              {cardHumid ? cardHumid + '%' : 'N/A'}
             </span>
             {isHumidAlarm && (
               <span className="warning-icon-container">

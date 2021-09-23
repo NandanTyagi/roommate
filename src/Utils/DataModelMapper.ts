@@ -35,7 +35,7 @@ export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBui
         object.humiditySensorId = d.id;
         object.maxHumidity = d.maxValue;
         object.minHumidity = d.minValue;
-        object.humidity = "0";
+        object.humidity =  0;
         object.isHumidAlarm = false;
         break;
       }
@@ -43,7 +43,7 @@ export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBui
         object.tempSensorId = d.id;
         object.maxTemp = d.maxValue;
         object.minTemp = d.minValue;
-        object.temp = "0";
+        object.temp = 0;
         object.isTempAlarm = false;
         break;
       }
