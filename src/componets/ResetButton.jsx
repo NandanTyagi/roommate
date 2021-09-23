@@ -4,11 +4,12 @@ const ResetButton = ({ hide, id, applicationState, setApplicationState }) => {
   const [isHidden, setIsHidden] = useState(!hide);
   const [iD, setiD] = useState(id);
   const handelReset = () => {
+    setApplicationState({ ...applicationState, reset: true });
     const thisAlarmedRoom = applicationState.alarms.filter(
       (room) => room.id === iD,
     );
     const currentRoomId = thisAlarmedRoom[0].id;
-
+    //setApplicationState({ ...applicationState, roomid: currentRoomId });  
     applicationState.rooms.map((r) => {
       if (r.id === currentRoomId && r.isHumidAlarm) {
         console.log('This room has a humidityalarm', r);

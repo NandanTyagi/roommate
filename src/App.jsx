@@ -17,6 +17,7 @@ import {
 } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
+import Footer from './componets/Footer';
 import { SetAlarms } from './Utils/SetAlarms';
 
 function App() {
@@ -34,12 +35,14 @@ function App() {
     menuOpen: false,
     loggedIn: false,
     showResetBtn: false,
+    reset: false,
+    deviceId: null,
     rooms: [],
     alarms: [],
     user: '',
     units: null,
   });
-
+  
   const [signalRConnection, setSignalRConnection] = useState(null);
 
   useEffect(() => {
@@ -64,6 +67,22 @@ depending upon the min and max values allowde by the restAPI */
       }
     }, 200);
   }, [accounts]);
+
+  //Reset alarm
+  useEffect(() => {
+    if (applicationState.reset){
+      console.log('alarm 5', applicationState);
+       smartHutAction('setAlarmAcknowledge' , {
+        id: applicationState.deviceId,
+        user: applicationState.user,
+      }).then((res) => {
+        if (res != null) {
+          console.log("återställ");
+        }
+      });
+      setApplicationState({ ...applicationState, reset: false });
+    }  
+  }, [applicationState.reset]);
 
   //Här hämtas API-datan med hjälp av funktionen SmartHutActions. Denna data modelleras om med hjälp av createApiDataFromGetBuildingAndDevicesData så
   // att vi får modeller som är anpassade efter hur vi ska rendera appen. You'll find thje def of this type as "type ApiDataObject" in types.ts.
@@ -162,6 +181,7 @@ depending upon the min and max values allowde by the restAPI */
               ) : null}
             </div>
           ) : (
+
             // Pushes the menu modal back to z-index 1
             <div className="login-container z"></div>
           )}
@@ -171,6 +191,7 @@ depending upon the min and max values allowde by the restAPI */
           {/* Issue #44 WebSocket gets disconnected all the time(Could be because i am trying to connect to it at 02:00)
           /N.T.*/}
 
+
           {applicationState.rooms.length > 0 && (
             <Main
               applicationState={applicationState}
@@ -179,6 +200,7 @@ depending upon the min and max values allowde by the restAPI */
           )}
 
           {/* TEST FÖR ATT SE ATT STATE FUNGERAR */}
+
           {/* {applicationState.rooms.length > 0 && (
             <div
               style={{
@@ -188,6 +210,7 @@ depending upon the min and max values allowde by the restAPI */
                 height: '600px',
               }}
             >
+
               {applicationState.rooms.map((r, i) => {
                 return (
                   <>
@@ -198,8 +221,10 @@ depending upon the min and max values allowde by the restAPI */
                 );
               })}
             </div>
+
           )} */}
         </div>
+        <Footer></Footer>
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>
         <Header
@@ -216,6 +241,7 @@ depending upon the min and max values allowde by the restAPI */
           )}
           <h2>Tryck på menyn för att logga in!</h2>
         </div>
+        <Footer></Footer>
       </UnauthenticatedTemplate>
     </>
   );
