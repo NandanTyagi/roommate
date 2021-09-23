@@ -24,18 +24,6 @@ function Card({
 
   console.log('From card', cardTemp);
 
-  useEffect(() => {
-    console.log('Testing', applicationState);
-    const comparedRoom = applicationState.rooms.filter(
-      (r) => r.name === cardId,
-    );
-    // if (comparedRoom.humidity !== null) {
-    //   setCardHumid(comparedRoom.humidity);
-    // }
-    // setCardTemp(comparedRoom.temp);
-
-    console.log('Compare Room', comparedRoom);
-  }, [applicationState.rooms[0].humidity, applicationState.rooms[0].temp]);
   return (
     <>
       <div

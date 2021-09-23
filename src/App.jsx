@@ -17,6 +17,7 @@ import {
 } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
+import { SetAlarms } from './Utils/SetAlarms';
 
 function App() {
   // const data = Data();
@@ -34,7 +35,7 @@ function App() {
     loggedIn: false,
     showResetBtn: false,
     rooms: [],
-    alarms: null,
+    alarms: [],
     user: '',
     units: null,
   });
@@ -42,14 +43,10 @@ function App() {
   const [signalRConnection, setSignalRConnection] = useState(null);
 
   useEffect(() => {
-    console.log('current state', applicationState.rooms);
-
-    if (applicationState.rooms != null) {
-      console.log('recalculate alarms');
-      const alarms = applicationState.rooms.filter((d) => d.isAlarm === true);
-      setApplicationState((prev) => ({ ...prev, alarms: alarms }));
-    }
-  }, [applicationState.rooms]);
+    /* This function sets all the alarms in each room
+depending upon the min and max values allowde by the restAPI */
+    SetAlarms(applicationState, setApplicationState);
+  }, [applicationState.rooms[0]]);
 
   // console.log('ApplicationState', applicationState);
   useEffect(() => {
@@ -165,17 +162,14 @@ function App() {
               ) : null}
             </div>
           ) : (
-            <div className="login-container z">
-              {/* {applicationState.menuOpen && applicationState.loggedIn ? (
-                <MenuModal
-                  applicationState={applicationState}
-                  setApplicationState={setApplicationState}
-                />
-              ) : null} */}
-            </div>
+            // Pushes the menu modal back to z-index 1
+            <div className="login-container z"></div>
           )}
 
           {/* ATT OMARBETA KOMPONENTERNA. NÅGOT ANTIPATTERN SKER SOM GÖR ATT DE INTE OMRENDERAS NÄR APPLIKATIONSTILLSTÅNDET UPPDATERAS */}
+
+          {/* Issue #44 WebSocket gets disconnected all the time(Could be because i am trying to connect to it at 02:00)
+          /N.T.*/}
 
           {applicationState.rooms.length > 0 && (
             <Main
@@ -228,5 +222,41 @@ function App() {
     </>
   );
 }
+
+//  console.log('current state', applicationState.rooms);
+//  let newRooms = [];
+//  if (applicationState.rooms != null) {
+//    console.log('recalculate alarms');
+//    applicationState.rooms.forEach((r, i) => {
+//      let oldRoom = applicationState.rooms[i];
+//      const maxTemp = r.maxTemp;
+//      const minTemp = r.minTemp;
+//      const temp = r.temp;
+
+//      if (maxTemp < temp || minTemp > temp) {
+//        oldRoom.isAlarm = true;
+//      }
+//      if (r.humidity !== null) {
+//        const maxHumidity = r.maxHumidity;
+//        const minHumidity = r.minHumidity;
+//        const humidity = r.humitidy;
+//        if (maxHumidity < humidity || minHumidity > humidity) {
+//          oldRoom.isAlarm = true;
+//        }
+//        newRooms.push(oldRoom);
+//      }
+//      setApplicationState((prev) => ({ ...prev, rooms: newRooms }));
+
+//      console.log('Checking newAppState', applicationState);
+//      console.log('Checking newRooms', newRooms);
+//      console.log('Checking oldRoom', oldRoom);
+//      console.log('Checking i', i);
+//      console.log('Checking max temp', maxTemp);
+//      console.log('Checking min temp', minTemp);
+//      console.log('Checking temp', temp);
+//    });
+//    const alarms = applicationState.rooms.filter((d) => d.isAlarm === true);
+//    setApplicationState((prev) => ({ ...prev, alarms: alarms }));
+//  }
 
 export default App;
