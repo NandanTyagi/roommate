@@ -6,12 +6,13 @@ import { loginRequest, msalInstance } from "../MSAL/msalConfigs";
 //Defines the differen actions that can be done.
 
 type SmartHutAction = "getBuilding" | "getBuildingAndDevices" | "getBuildingDevices" |
-  "getDeviceInfo" | "getAlarmLogs" | "resetAlarm" | "getUnits";
+  "getDeviceInfo" | "getAlarmLogs" | "resetAlarm" | "getUnits" | "setAlarmAcknowledge";
 
 
 //Optional argument, id, is needed when calling an endpoint that takes an id to resolve.
 type SmartHutArgs = {
   id?: string,
+  user?: string
 } | undefined
 
 
@@ -69,6 +70,19 @@ export const smartHutAction = async (action: SmartHutAction, args: SmartHutArgs 
         .catch((error) => {
           console.log(error)
         })
+    }
+
+    case "setAlarmAcknowledge": {
+      return axios.post('https://smarthut.azurewebsites.net/api/restorealarm', {
+        deviceId: args?.id,
+        userName: args?.user
+      })
+      .then((response) => {
+        console.log(response);
+        console.log('post reset2');
+      }, (error) => {
+        console.log("error post" + error);
+      });
     }
 
     // case "getDeviceInfo": {
