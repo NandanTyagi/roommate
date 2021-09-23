@@ -214,49 +214,11 @@ depending upon the min and max values allowde by the restAPI */
               setApplicationState={setApplicationState}
             />
           )}
-          <h2>Utloggad</h2>
-          <br />
-          <h3>Tryck på menyn för att logga in!</h3>
+          <h2>Tryck på menyn för att logga in!</h2>
         </div>
       </UnauthenticatedTemplate>
     </>
   );
 }
-
-//  console.log('current state', applicationState.rooms);
-//  let newRooms = [];
-//  if (applicationState.rooms != null) {
-//    console.log('recalculate alarms');
-//    applicationState.rooms.forEach((r, i) => {
-//      let oldRoom = applicationState.rooms[i];
-//      const maxTemp = r.maxTemp;
-//      const minTemp = r.minTemp;
-//      const temp = r.temp;
-
-//      if (maxTemp < temp || minTemp > temp) {
-//        oldRoom.isAlarm = true;
-//      }
-//      if (r.humidity !== null) {
-//        const maxHumidity = r.maxHumidity;
-//        const minHumidity = r.minHumidity;
-//        const humidity = r.humitidy;
-//        if (maxHumidity < humidity || minHumidity > humidity) {
-//          oldRoom.isAlarm = true;
-//        }
-//        newRooms.push(oldRoom);
-//      }
-//      setApplicationState((prev) => ({ ...prev, rooms: newRooms }));
-
-//      console.log('Checking newAppState', applicationState);
-//      console.log('Checking newRooms', newRooms);
-//      console.log('Checking oldRoom', oldRoom);
-//      console.log('Checking i', i);
-//      console.log('Checking max temp', maxTemp);
-//      console.log('Checking min temp', minTemp);
-//      console.log('Checking temp', temp);
-//    });
-//    const alarms = applicationState.rooms.filter((d) => d.isAlarm === true);
-//    setApplicationState((prev) => ({ ...prev, alarms: alarms }));
-//  }
 
 export default App;

@@ -7,7 +7,7 @@ function StatusBar({ applicationState, setApplicationState }) {
       {applicationState.alarms.length === 0 ? (
         <div className="status-container">
           <h2 className="status">
-            Status: <span id="status">Inga larm!</span>
+            Status: <span id="status">Utloggad</span>
           </h2>
           <div className="act-btn nodisplay" id="act-btn">
             Åtgärda

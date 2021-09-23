@@ -26,20 +26,17 @@ function Card({
 
   return (
     <>
-      <div
-        className={cardIsAlarm ? 'card alarm' : 'card'}
-        id={'card-' + cardId}
-      >
+      <div className={isAlarm ? 'card alarm' : 'card'} id={'card-' + id}>
         <div className="container-room">
           <div className="room" id="room-1-name">
-            {cardName}
+            {name}
           </div>
           <div className="info">
             Värme:
             <span className="temp normal" id="room-1-temp">
-              {cardTemp + '°C'}
+              {temp + '°C'}
             </span>
-            {cardIsTempAlarm && (
+            {isTempAlarm && (
               <span className="warning-icon-container">
                 <i
                   className="warning-icon fas fa-exclamation"
@@ -51,9 +48,9 @@ function Card({
           <div className="info">
             Luft Fuktighet:
             <span className="humid normal" id="room-1-humid">
-              {cardHumid ? cardHumid + '%' : 'N/A'}
+              {humid ? humid + '%' : 'N/A'}
             </span>
-            {cardIsHumidAlarm && (
+            {isHumidAlarm && (
               <span className="warning-icon-container">
                 <i
                   className="warning-icon fas fa-exclamation"
@@ -66,7 +63,7 @@ function Card({
         {applicationState.showResetBtn && (
           <ResetButton
             hide={isAlarm}
-            id={cardId}
+            id={id}
             applicationState={applicationState}
             setApplicationState={setApplicationState}
           />

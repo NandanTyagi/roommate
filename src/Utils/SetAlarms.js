@@ -19,6 +19,7 @@ export const SetAlarms = (appState, setAppState) => {
       if (maxTemp < temp || minTemp > temp) {
         // If alarm conditions are met set alarm to true
         oldRoom.isAlarm = true;
+        oldRoom.isTempAlarm = true;
       }
 
       // If humidity sensor exists
@@ -26,11 +27,12 @@ export const SetAlarms = (appState, setAppState) => {
         // Identify the humidity parameters for current room
         const maxHumidity = r.maxHumidity;
         const minHumidity = r.minHumidity;
-        const humidity = r.humitidy;
+        const humidity = r.humidity;
         // Set conditions for the min an max humidity
         if (maxHumidity < humidity || minHumidity > humidity) {
           // If alarm conditions are met set alarm to true
           oldRoom.isAlarm = true;
+          oldRoom.isHumidAlarm = true;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
         newRooms.push(oldRoom);
