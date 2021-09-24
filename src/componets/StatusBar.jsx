@@ -1,4 +1,4 @@
-import ActButton from './ActButton';
+import ActButton from "./ActButton";
 
 function StatusBar({ applicationState, setApplicationState }) {
   const isAlarm = false;
@@ -12,11 +12,24 @@ function StatusBar({ applicationState, setApplicationState }) {
           <div className="act-btn nodisplay" id="act-btn">
             Åtgärda
           </div>
+          {applicationState.showResetBtn && 
+            <button
+              onClick={() =>
+                setApplicationState({
+                  ...applicationState,
+                  showResetBtn: false,
+                })
+              }
+            >
+              {" "}
+              Tillbaka
+            </button>
+          }
         </div>
       ) : (
         <div className="status-container">
           <h2 className="status alert">
-            Status:{' '}
+            Status:{" "}
             {applicationState.alarms?.length > 1 ? (
               <span id="status">
                 {applicationState.alarms?.length} aktiva larm!

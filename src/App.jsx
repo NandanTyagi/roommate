@@ -36,6 +36,7 @@ function App() {
     loggedIn: false,
     showResetBtn: false,
     reset: false,
+    isReset: false,
     deviceId: null,
     rooms: [],
     alarms: [],
@@ -146,7 +147,7 @@ depending upon the min and max values allowde by the restAPI */
 
               newConnection.start().then(() => {
                 newConnection.on('newTelemetry', (data) => {
-                  console.log('new telemetry');
+                  //console.log('new telemetry');
                   const state = { ...applicationState };
                   updateStateFromSignalRTelemetry(
                     setApplicationState,

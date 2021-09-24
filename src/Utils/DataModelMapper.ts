@@ -17,7 +17,12 @@ export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBui
 
   input.devices.forEach((d: SmartHut.Device) => {
 
-    const roomName = d.name.split(" ").slice(1).join(" ");
+    let roomName = d.name.split(" ").slice(1).join(" ");
+    const roomFormatter = roomName;
+    const remainingLetters = roomName.slice(1, roomName.length)
+    const firstLetter = roomFormatter.slice(0, 1);
+    const capitalizedRoomName = firstLetter.toUpperCase() + remainingLetters;
+    roomName = capitalizedRoomName;
     let object: ApiDataObject | undefined = output?.find(o => o.name === roomName);
     let alreadyExistxist = false;
     if (object == null) {
@@ -54,7 +59,7 @@ export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBui
 
     object.isReset = false;
     object.isAlarm = false;
-    object.id = "What id goes here?";
+    object.id = d.name;
 
     if (!alreadyExistxist) {
       output?.push(object);
