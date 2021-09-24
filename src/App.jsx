@@ -13,7 +13,7 @@ import Data from './Data';
 import {
   createConnection,
   getNegotiationUrl,
-  updateStateFromSignalRTelemetry,
+  getUpdatedApiDataObjectFromNewTelemetry,
 } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
@@ -43,7 +43,7 @@ function App() {
     user: '',
     units: null,
   });
-  
+
   const [signalRConnection, setSignalRConnection] = useState(null);
 
   useEffect(() => {
@@ -71,9 +71,9 @@ depending upon the min and max values allowde by the restAPI */
 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.reset){
+    if (applicationState.reset) {
       console.log('alarm 5', applicationState);
-       smartHutAction('setAlarmAcknowledge' , {
+      smartHutAction('setAlarmAcknowledge', {
         id: applicationState.deviceId,
         user: applicationState.user,
       }).then((res) => {
@@ -82,7 +82,7 @@ depending upon the min and max values allowde by the restAPI */
         }
       });
       setApplicationState({ ...applicationState, reset: false });
-    }  
+    }
   }, [applicationState.reset]);
 
   //Här hämtas API-datan med hjälp av funktionen SmartHutActions. Denna data modelleras om med hjälp av createApiDataFromGetBuildingAndDevicesData så
@@ -149,11 +149,23 @@ depending upon the min and max values allowde by the restAPI */
                 newConnection.on('newTelemetry', (data) => {
                   //console.log('new telemetry');
                   const state = { ...applicationState };
-                  updateStateFromSignalRTelemetry(
-                    setApplicationState,
+                  const [index, formattedValue, typeOfValue] = getUpdatedApiDataObjectFromNewTelemetry(
                     state,
                     data[0],
                   );
+
+                  //Updates only value that changed on last telemetry
+                  setApplicationState(prev => ({
+                    ...prev,
+                    rooms: [
+                      ...prev.rooms.slice(0, index),
+                      {
+                        ...prev.rooms[index],
+                        [typeOfValue]: formattedValue
+                      },
+                      ...prev.rooms.slice(index + 1)
+                    ]
+                  }))
                 });
                 setSignalRConnection(newConnection);
               });
