@@ -54,7 +54,7 @@ export const createApiDataFromGetBuildingAndDevicesData: (input: SmartHut.getBui
 
     object.isReset = false;
     object.isAlarm = false;
-    object.id = "What id goes here?";
+    object.id = d.name;
 
     if (!alreadyExistxist) {
       output?.push(object);

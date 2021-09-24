@@ -1,13 +1,13 @@
 /* This function sets all the alarms in each room
 depending upon the min and max values allowde by the restAPI */
 export const SetAlarms = (appState, setAppState) => {
-  console.log('current state', appState.rooms);
+  //console.log('current state', appState.rooms);
   // Create new room array
   let newRooms = [];
   let newAlarmedRooms = [];
   // If there are rooms in the application state
   if (appState.rooms != null) {
-    console.log('recalculate alarms');
+    //console.log('recalculate alarms');
     // Itterate over the rooms
     appState.rooms.forEach((r, i) => {
       // Identify the oldRoom object
@@ -16,7 +16,7 @@ export const SetAlarms = (appState, setAppState) => {
       const maxTemp = r.maxTemp;
       const minTemp = r.minTemp;
       const temp = r.temp;
-      console.log("ooooooooTEMP", temp, temp + 10);
+      //console.log("ooooooooTEMP", temp, temp + 10);
       // Set conditions for the min an max temprature
       if (maxTemp < temp || minTemp > temp) {
         // If alarm conditions are met set alarm to true
@@ -41,10 +41,10 @@ export const SetAlarms = (appState, setAppState) => {
           currentRoom.isHumidAlarm = false;
         }
 
-        if((currentRoom.isHumidAlarm === true) || (currentRoom.isTempAlarm === true)){
+        if ((currentRoom.isHumidAlarm === true) || (currentRoom.isTempAlarm === true)) {
           currentRoom.isAlarm = true;
         }
-        else{
+        else {
           currentRoom.isAlarm = false;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
@@ -53,17 +53,25 @@ export const SetAlarms = (appState, setAppState) => {
       // Add the newRooms array to the applicationState.rooms array
       setAppState((prev) => ({ ...prev, rooms: newRooms }));
 
-      console.log('Checking newAppState', appState);
-      console.log('Checking newRooms', newRooms);
-      console.log('Checking oldRoom', currentRoom);
-      console.log('Checking i', i);
-      console.log('Checking max temp', maxTemp);
-      console.log('Checking min temp', minTemp);
-      console.log('Checking temp', temp);
+      // console.log('Checking newAppState', appState);
+      // console.log('Checking newRooms', newRooms);
+      // console.log('Checking oldRoom', currentRoom);
+      // console.log('Checking i', i);
+      // console.log('Checking max temp', maxTemp);
+      // console.log('Checking min temp', minTemp);
+      // console.log('Checking temp', temp);
     });
     // Update the applicationState.alarms array with new alarms
-    const alarms = appState.rooms.filter((d) => d.isAlarm === true);
-    setAppState((prev) => ({ ...prev, alarms: alarms }));
+
+    const alarms = appState.rooms.filter((d) => 
+      d.isAlarm === true
+      );
+    const unResettedAlarms = alarms.filter((d) => 
+      d.isReset === false
+      );
+      
+      console.log("Alarm log rooms", unResettedAlarms)
+    setAppState((prev) => ({ ...prev, alarms: unResettedAlarms }));
   }
 };
 export default SetAlarms;

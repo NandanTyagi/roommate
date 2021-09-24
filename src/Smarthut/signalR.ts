@@ -69,12 +69,12 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
     const isHumidity = state.rooms.some(o => o.humiditySensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
     let index: number;
     if (isHumidity) {
-      console.log("is humidity");
+      // console.log("is humidity");
       index = state.rooms.findIndex(o => o.humiditySensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
       const currentObject = { ...state.rooms[index] };
       const humidFormatter = data.value;
       const formattedHumidity = Math.round(humidFormatter * 10) / 10;
-      console.log("value", formattedHumidity, humidFormatter);
+      // console.log("value", formattedHumidity, humidFormatter);
       currentObject.humidity = data.value
       if (index != null) {
         setter(prev => ({
@@ -91,7 +91,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
 
       }
     } else {
-      console.log("is temp");
+      //console.log("is temp");
       index = state.rooms.findIndex(o => o.tempSensorId?.toLocaleLowerCase() === data.deviceId.toLocaleLowerCase());
       const currentObject = { ...state.rooms[index] };
       const tempFormatter = data.value;
@@ -104,7 +104,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
             ...prev.rooms.slice(0, index),
             {
               ...prev.rooms[index],
-              temp: formattedTemp
+              temp: formattedTemp+20
             },
             ...prev.rooms.slice(index + 1)
           ]
