@@ -43,16 +43,23 @@ export const SetAlarms = (appState, setAppState) => {
 
         if ((currentRoom.isHumidAlarm === true) || (currentRoom.isTempAlarm === true)) {
           currentRoom.isAlarm = true;
+          currentRoom.isReset = false;
         }
         else {
+          currentRoom.isAlarm = false;
+        }
+        if(currentRoom.isReset)
+        {
+          currentRoom.isHumidAlarm = false;
+          currentRoom.isTempAlarm = false;
           currentRoom.isAlarm = false;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
         newRooms.push(currentRoom);
       }
       // Add the newRooms array to the applicationState.rooms array
-      setAppState((prev) => ({ ...prev, rooms: newRooms }));
-
+        setAppState((prev) => ({ ...prev, rooms: newRooms }));
+      
       // console.log('Checking newAppState', appState);
       // console.log('Checking newRooms', newRooms);
       // console.log('Checking oldRoom', currentRoom);
@@ -71,7 +78,8 @@ export const SetAlarms = (appState, setAppState) => {
       );
       
       console.log("Alarm log rooms", unResettedAlarms)
-    setAppState((prev) => ({ ...prev, alarms: unResettedAlarms }));
+      console.log("Current state", appState.rooms)
+        setAppState((prev) => ({ ...prev, alarms: unResettedAlarms }));
   }
 };
 export default SetAlarms;

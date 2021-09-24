@@ -37,7 +37,7 @@ function Card({
             {name}
           </div>
           <div className="info">
-            Värme:
+            Temperatur:
             <span className="temp normal" id="room-1-temp">
               {cardTemp + '°C'}
             </span>
@@ -51,7 +51,7 @@ function Card({
             )}
           </div>
           <div className="info">
-            Luft Fuktighet:
+            Luftfuktighet:
             <span className="humid normal" id="room-1-humid">
               {cardHumid ? cardHumid + '%' : 'N/A'}
             </span>
