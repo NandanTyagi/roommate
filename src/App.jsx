@@ -35,9 +35,11 @@ function App() {
     menuOpen: false,
     loggedIn: false,
     showResetBtn: false,
-    reset: false,
+    tempReset: false,
+    humReset: false,
     isReset: false,
-    deviceId: null,
+    tempId: null,
+    humId: null,
     rooms: [],
     alarms: [],
     user: '',
@@ -71,19 +73,37 @@ depending upon the min and max values allowde by the restAPI */
 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.reset){
-      console.log('alarm 5', applicationState);
+    if (applicationState.tempReset){
+      console.log('alarm 7', applicationState);
        smartHutAction('setAlarmAcknowledge' , {
-        id: applicationState.deviceId,
+        id: applicationState.tempId,
+        //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
         if (res != null) {
           console.log("återställ");
         }
       });
-      setApplicationState({ ...applicationState, reset: false });
+      setApplicationState({ ...applicationState, tempReset: false });
     }  
-  }, [applicationState.reset]);
+  }, [applicationState.tempReset]);
+
+  //Reset alarm
+  useEffect(() => {
+    if (applicationState.humReset){
+      console.log('alarm 7', applicationState);
+       smartHutAction('setAlarmAcknowledge' , {
+        id: applicationState.humId,
+        //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
+        user: applicationState.user,
+      }).then((res) => {
+        if (res != null) {
+          console.log("återställ");
+        }
+      });
+      setApplicationState({ ...applicationState, humReset: false });
+    }  
+  }, [applicationState.humReset]);
 
   //Här hämtas API-datan med hjälp av funktionen SmartHutActions. Denna data modelleras om med hjälp av createApiDataFromGetBuildingAndDevicesData så
   // att vi får modeller som är anpassade efter hur vi ska rendera appen. You'll find thje def of this type as "type ApiDataObject" in types.ts.

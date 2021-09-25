@@ -83,7 +83,7 @@ export const updateStateFromSignalRTelemetry: (setter: React.Dispatch<React.SetS
             ...prev.rooms.slice(0, index),
             {
               ...prev.rooms[index],
-              humidity: formattedHumidity
+              humidity: formattedHumidity 
             },
             ...prev.rooms.slice(index + 1)
           ]
