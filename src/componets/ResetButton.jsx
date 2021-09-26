@@ -1,6 +1,8 @@
-import { ClientConfigurationErrorMessage } from '@azure/msal-common';
-import { ResetUIAlarms } from '../Utils/ResetUIAlarms';
-import { useState } from 'react';
+
+import { ClientConfigurationErrorMessage } from "@azure/msal-common";
+import {ResetUIAlarms} from '../Utils/ResetUIAlarms';
+import {ResetAPIAlarms} from '../Utils/ResetAPIAlarms';
+import { useState } from "react";
 
 const ResetButton = ({
   name,
@@ -13,7 +15,12 @@ const ResetButton = ({
   const [iD, setiD] = useState(id);
   const handelReset = (e) => {
     // setApplicationState({ ...applicationState, reset: true });
-
+    console.log("Tryckt");
+    console.log(id);
+    console.log(name);
+    console.log(applicationState);
+    console.log(applicationState.alarms);
+    ResetAPIAlarms(applicationState, setApplicationState, name, id);
     ResetUIAlarms(applicationState, name, id);
     console.log('From handel reset e:', e.target.innerText);
     e.target.innerText = 'Återställt';
