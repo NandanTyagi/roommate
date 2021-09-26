@@ -48,11 +48,14 @@ export const SetAlarms = (appState, setAppState) => {
         else {
           currentRoom.isAlarm = false;
         }
-        if(currentRoom.isReset)
+        if(currentRoom.isReset === true)
         {
           currentRoom.isHumidAlarm = false;
           currentRoom.isTempAlarm = false;
           currentRoom.isAlarm = false;
+        }
+        else{
+          currentRoom.isAlarm = true;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
         newRooms.push(currentRoom);

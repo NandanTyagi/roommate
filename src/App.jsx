@@ -73,37 +73,37 @@ depending upon the min and max values allowde by the restAPI */
 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.tempReset){
-      console.log('alarm 7', applicationState);
+    if (applicationState.tempReset === true){
        smartHutAction('setAlarmAcknowledge' , {
         id: applicationState.tempId,
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
         if (res != null) {
-          console.log("återställ");
+          console.log(res);
         }
       });
       setApplicationState({ ...applicationState, tempReset: false });
+      console.log('post temp', applicationState);
     }  
-  }, [applicationState.tempReset]);
+  }, [applicationState].tempReset);
 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.humReset){
-      console.log('alarm 7', applicationState);
+    if (applicationState.humReset === true){
        smartHutAction('setAlarmAcknowledge' , {
         id: applicationState.humId,
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
         if (res != null) {
-          console.log("återställ");
+          console.log(res);
         }
       });
-      setApplicationState({ ...applicationState, humReset: false });
+      setApplicationState({ ...applicationState, humReset: false, tempReset: false });
+      console.log('post humididty', applicationState);
     }  
-  }, [applicationState.humReset]);
+  }, [applicationState].humReset);
 
   //Här hämtas API-datan med hjälp av funktionen SmartHutActions. Denna data modelleras om med hjälp av createApiDataFromGetBuildingAndDevicesData så
   // att vi får modeller som är anpassade efter hur vi ska rendera appen. You'll find thje def of this type as "type ApiDataObject" in types.ts.

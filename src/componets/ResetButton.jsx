@@ -16,10 +16,10 @@ const ResetButton = ({
   const handelReset = (e) => {
     // setApplicationState({ ...applicationState, reset: true });
     console.log("Tryckt");
-    console.log(id);
-    console.log(name);
-    console.log(applicationState);
-    console.log(applicationState.alarms);
+    // console.log(id);
+    // console.log(name);
+    // console.log(applicationState);
+    // console.log(applicationState.alarms);
     ResetAPIAlarms(applicationState, setApplicationState, name, id);
     ResetUIAlarms(applicationState, name, id);
     console.log('From handel reset e:', e.target.innerText);

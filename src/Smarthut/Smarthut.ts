@@ -79,7 +79,7 @@ export const smartHutAction = async (action: SmartHutAction, args: SmartHutArgs 
       })
       .then((response) => {
         console.log(response);
-        console.log('post reset2');
+        console.log('post reset request');
       }, (error) => {
         console.log("error post" + error);
       });

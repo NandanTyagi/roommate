@@ -4,20 +4,39 @@ export const ResetAPIAlarms = (appState, setAppState, name, iD) => {
     const alarmedRooms = appState.rooms.filter(
         (room) => room.id === iD
     );
-    if(alarmedRooms[0].isTempAlarm === true && alarmedRooms[0].isHumidAlarm === true){
-        setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: true  });
-        console.log("postalarm2");
-    }
-    else if(alarmedRooms[0].isTempAlarm === true && alarmedRooms[0].isHumidAlarm === false){
-        console.log("postalarm1");
-        console.log(alarmedRooms[0]);
-        setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: false });
+    // if(alarmedRooms[0].isTempAlarm === true && alarmedRooms[0].isHumidAlarm === true){
+    //     setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: true  });
+    //     console.log("postalarm2");
+    // }
+    // else if(alarmedRooms[0].isTempAlarm === true && alarmedRooms[0].isHumidAlarm === false){
+    //     console.log("postalarm1");
+    //     console.log(alarmedRooms[0]);
+    //     setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: false });
         
+    // }
+    // else if(alarmedRooms[0].isTempAlarm === false && alarmedRooms[0].isHumidAlarm === true){
+    //     setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: false, humReset: true });
+    //     console.log("postalarm0");
+    // }
+    console.log("alarmedRooms"); 
+    console.log(alarmedRooms[0].humiditySensorId);  
+    // if ((alarmedRooms[0].isAlarm || alarmedRooms[0].isTempAlarm === true || alarmedRooms[0].isHumidAlarm === true) && alarmedRooms[0].humiditySensorId != null){
+    //      setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: true  });
+    //      console.log("postalarm4");   
+    //  }
+    //  else if ((alarmedRooms[0].isAlarm || alarmedRooms[0].isTempAlarm === true) && alarmedRooms[0].humiditySensorId === null){
+    //     setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, tempReset: true, humReset: false  });
+    //     console.log("postalarm4");   
+    // }
+    if (alarmedRooms[0].humiditySensorId != null){
+        setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: true, humReset: true  });
+        console.log("postalarms temp and humidity");   
     }
-    else if(alarmedRooms[0].isTempAlarm === false && alarmedRooms[0].isHumidAlarm === true){
-        setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, humId: alarmedRooms[0].humiditySensorId, tempReset: false, humReset: true });
-        console.log("postalarm0");
-    }
+    else{
+       setAppState({ ...appState, tempId: alarmedRooms[0].tempSensorId, tempReset: true, humReset: false  });
+       console.log("postalarms Only temp");   
+   }
+     
 }
 
 export default ResetAPIAlarms

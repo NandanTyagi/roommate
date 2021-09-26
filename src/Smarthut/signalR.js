@@ -70,7 +70,7 @@ export const getUpdatedApiDataObjectFromNewTelemetry = (state, data) => {
     currentObject.temp = data.value
     if (index != null) {
       return [index,
-        formattedTemp,
+        formattedTemp + 1.0,
         "temp"
       ]
 
