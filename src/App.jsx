@@ -13,7 +13,7 @@ import Data from './Data';
 import {
   createConnection,
   getNegotiationUrl,
-  updateStateFromSignalRTelemetry,
+  getUpdatedApiDataObjectFromNewTelemetry,
 } from './Smarthut/signalR';
 import { smartHutAction } from './Smarthut/Smarthut';
 import { createApiDataFromGetBuildingAndDevicesData } from './Utils/DataModelMapper';
@@ -45,7 +45,7 @@ function App() {
     user: '',
     units: null,
   });
-  
+
   const [signalRConnection, setSignalRConnection] = useState(null);
 
   useEffect(() => {
@@ -169,11 +169,23 @@ depending upon the min and max values allowde by the restAPI */
                 newConnection.on('newTelemetry', (data) => {
                   //console.log('new telemetry');
                   const state = { ...applicationState };
-                  updateStateFromSignalRTelemetry(
-                    setApplicationState,
+                  const [index, formattedValue, typeOfValue] = getUpdatedApiDataObjectFromNewTelemetry(
                     state,
                     data[0],
                   );
+
+                  //Updates only value that changed on last telemetry
+                  setApplicationState(prev => ({
+                    ...prev,
+                    rooms: [
+                      ...prev.rooms.slice(0, index),
+                      {
+                        ...prev.rooms[index],
+                        [typeOfValue]: formattedValue
+                      },
+                      ...prev.rooms.slice(index + 1)
+                    ]
+                  }))
                 });
                 setSignalRConnection(newConnection);
               });
