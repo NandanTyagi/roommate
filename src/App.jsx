@@ -71,6 +71,7 @@ depending upon the min and max values allowde by the restAPI */
     }, 200);
   }, [accounts]);
 
+ 
   //Reset alarm
   useEffect(() => {
     if (applicationState.tempReset === true){
@@ -79,14 +80,22 @@ depending upon the min and max values allowde by the restAPI */
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
+        smartHutAction('getAlarmLogs' , {
+          id: applicationState.tempId
+        }).then((res) => {
+          if (res != null) {
+            console.log(res);
+          }
+        });
         if (res != null) {
           console.log(res);
         }
       });
-      setApplicationState({ ...applicationState, tempReset: false });
+      setApplicationState(prev =>({ ...prev, tempReset: false }));
       console.log('post temp', applicationState);
+      
     }  
-  }, [applicationState].tempReset);
+  }, [applicationState.tempReset]);
 
   //Reset alarm
   useEffect(() => {
@@ -96,14 +105,21 @@ depending upon the min and max values allowde by the restAPI */
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
+        smartHutAction('getAlarmLogs' , {
+          id: applicationState.humId
+        }).then((res) => {
+          if (res != null) {
+            console.log(res);
+          }
+        });
         if (res != null) {
           console.log(res);
         }
       });
-      setApplicationState({ ...applicationState, humReset: false, tempReset: false });
+      setApplicationState(prev => ({ ...prev, humReset: false}));
       console.log('post humididty', applicationState);
     }  
-  }, [applicationState].humReset);
+  }, [applicationState.humReset]);
 
   //Här hämtas API-datan med hjälp av funktionen SmartHutActions. Denna data modelleras om med hjälp av createApiDataFromGetBuildingAndDevicesData så
   // att vi får modeller som är anpassade efter hur vi ska rendera appen. You'll find thje def of this type as "type ApiDataObject" in types.ts.

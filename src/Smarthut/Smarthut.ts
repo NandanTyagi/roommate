@@ -64,6 +64,15 @@ export const smartHutAction = async (action: SmartHutAction, args: SmartHutArgs 
           })
       }
     }
+    case "getAlarmLogs": {
+      if (args?.id == null) { throw new Error("Missing a building id for getBuildingDevices request."); } else {
+        return axios.get(`/DeviceInfo/GetAlarmLogs/${args.id}`)
+          .then(res => res)
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    }
     case "getUnits": {
       return axios.get(`/unit`)
         .then(res => res)
