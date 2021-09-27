@@ -18,7 +18,7 @@ export const SetAlarms = (appState, setAppState) => {
       const temp = r.temp;
       //console.log("ooooooooTEMP", temp, temp + 10);
       // Set conditions for the min an max temprature
-      if (maxTemp < temp || minTemp > temp) {
+      if (maxTemp < temp || minTemp > temp && temp !== 0) {
         // If alarm conditions are met set alarm to true
         currentRoom.isTempAlarm = true;
       }
@@ -33,12 +33,16 @@ export const SetAlarms = (appState, setAppState) => {
         const minHumidity = r.minHumidity;
         const humidity = r.humidity;
         // Set conditions for the min an max humidity
-        if (maxHumidity < humidity || minHumidity > humidity) {
+        if (maxHumidity < humidity || minHumidity > humidity && humidity !== 0) {
           // If alarm conditions are met set alarm to true
           currentRoom.isHumidAlarm = true;
         }
         else {
           currentRoom.isHumidAlarm = false;
+        }
+
+        if(temp === 0 || humidity === 0){
+          currentRoom.isReset = true;
         }
 
         if ((currentRoom.isHumidAlarm === true) || (currentRoom.isTempAlarm === true)) {
@@ -48,11 +52,14 @@ export const SetAlarms = (appState, setAppState) => {
         else {
           currentRoom.isAlarm = false;
         }
-        if(currentRoom.isReset)
+        if(currentRoom.isReset === true)
         {
           currentRoom.isHumidAlarm = false;
           currentRoom.isTempAlarm = false;
           currentRoom.isAlarm = false;
+        }
+        else{
+          currentRoom.isAlarm = true;
         }
         // Append the oldRoom with uppdated alarm flags to the newRooms Array
         newRooms.push(currentRoom);

@@ -71,37 +71,53 @@ depending upon the min and max values allowde by the restAPI */
     }, 200);
   }, [accounts]);
 
+ 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.tempReset){
-      console.log('alarm 7', applicationState);
+    if (applicationState.tempReset === true){
        smartHutAction('setAlarmAcknowledge' , {
         id: applicationState.tempId,
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
+        smartHutAction('getAlarmLogs' , {
+          id: applicationState.tempId
+        }).then((res) => {
+          if (res != null) {
+            console.log(res);
+          }
+        });
         if (res != null) {
-          console.log("återställ");
+          console.log(res);
         }
       });
-      setApplicationState({ ...applicationState, tempReset: false });
+      setApplicationState(prev =>({ ...prev, tempReset: false }));
+      console.log('post temp', applicationState);
+      
     }  
   }, [applicationState.tempReset]);
 
   //Reset alarm
   useEffect(() => {
-    if (applicationState.humReset){
-      console.log('alarm 7', applicationState);
+    if (applicationState.humReset === true){
        smartHutAction('setAlarmAcknowledge' , {
         id: applicationState.humId,
         //id: "c487b36f-0005-4b0b-9f54-1ec354efdc1e",
         user: applicationState.user,
       }).then((res) => {
+        smartHutAction('getAlarmLogs' , {
+          id: applicationState.humId
+        }).then((res) => {
+          if (res != null) {
+            console.log(res);
+          }
+        });
         if (res != null) {
-          console.log("återställ");
+          console.log(res);
         }
       });
-      setApplicationState({ ...applicationState, humReset: false });
+      setApplicationState(prev => ({ ...prev, humReset: false}));
+      console.log('post humididty', applicationState);
     }  
   }, [applicationState.humReset]);
 
